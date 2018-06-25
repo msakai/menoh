@@ -48,9 +48,15 @@ script:
         ..
       else
         cmake -DENABLE_TEST=ON \
+        -DCMAKE_BUILD_TYPE=Debug \
         -DMKLDNN_INCLUDE_DIR="$HOME/mkl-dnn/include" \
         -DMKLDNN_LIBRARY="$HOME/mkl-dnn/lib/libmkldnn.so" \
         ..
       fi
     - make
-    # - ./test/menoh_test
+    - |
+      if [ "$TRAVIS_OS_NAME" == "osx" ]; then
+        ./test/menoh_test
+      else
+        catchsegv ./test/menoh_test
+      fi

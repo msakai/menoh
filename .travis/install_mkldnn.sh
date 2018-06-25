@@ -5,7 +5,7 @@ if [ ! -d "$HOME/mkl-dnn/lib" ]; then
     cd scripts && bash ./prepare_mkl.sh && cd ..
     sed -i 's/add_subdirectory(examples)//g' CMakeLists.txt
     sed -i 's/add_subdirectory(tests)//g' CMakeLists.txt
-    mkdir -p build && cd build && cmake -DCMAKE_INSTALL_PREFIX=$HOME/mkl-dnn .. && make
+    mkdir -p build && cd build && cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$HOME/mkl-dnn .. && make
     make install
     cd ..
 else
