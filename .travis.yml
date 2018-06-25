@@ -3,7 +3,6 @@ sudo: required
 language: cpp
 os:
   - linux
-  - osx
 addons:
     apt:
         sources:
