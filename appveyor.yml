@@ -12,11 +12,8 @@ install:
 - set SSL_CERT_FILE=C:\msys64\mingw64\ssl\cert.pem
 - set SSL_CERT_DIR=C:\msys64\mingw64\ssl\certs
 
-- curl -omingw-w64-x86_64-mkl-dnn-0.14-2-any.pkg.tar.xz -L https://www.dropbox.com/s/bi1pb4pq7cc07o9/mingw-w64-x86_64-mkl-dnn-0.14-2-any.pkg.tar.xz?dl=1
-- pacman -U --noconfirm mingw-w64-x86_64-mkl-dnn-0.14-2-any.pkg.tar.xz
-- curl -omklml_win_2018.0.3.20180406.zip -L https://github.com/intel/mkl-dnn/releases/download/v0.14/mklml_win_2018.0.3.20180406.zip
-- 7z x mklml_win_2018.0.3.20180406.zip
-- cp mklml_win_2018.0.3.20180406/lib/*.dll /mingw64/bin/
+- curl -omingw-w64-x86_64-mkl-dnn-0.14-3-x86_64.pkg.tar.xz -L https://www.dropbox.com/s/tpbwjcc0hz1uo7p/mingw-w64-x86_64-mkl-dnn-0.14-3-x86_64.pkg.tar.xz?dl=1
+- pacman -U --noconfirm mingw-w64-x86_64-mkl-dnn-0.14-3-x86_64.pkg.tar.xz
 
 - pip3 install --user chainer
 - mkdir -p data
