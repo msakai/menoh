@@ -1,0 +1,16 @@
+platform:
+- x64
+
+install:
+- set PATH=C:\msys64\usr\bin;C:\msys64\mingw64\bin;%PATH%
+- pacman -S --needed --noconfirm mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake mingw-w64-x86_64-ca-certificates
+- set SSL_CERT_FILE=C:\msys64\mingw64\ssl\cert.pem
+- set SSL_CERT_DIR=C:\msys64\mingw64\ssl\certs
+- curl -omingw-w64-x86_64-mkl-dnn-0.14-3-x86_64.pkg.tar.xz -L https://github.com/msakai/mkl-dnn/releases/download/v0.14/mingw-w64-x86_64-mkl-dnn-0.14-3-x86_64.pkg.tar.xz
+- pacman -U --noconfirm mingw-w64-x86_64-mkl-dnn-0.14-3-x86_64.pkg.tar.xz
+
+build_script:
+- bash -c "MINGW_INSTALLS=mingw64 makepkg-mingw --needed --noconfirm -sLf"
+
+artifacts:
+- path: '*menoh*.pkg.tar.xz'
