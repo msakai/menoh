@@ -3,6 +3,7 @@ add_library(menoh ${SOURCES} ${ONNX_PROTO_SRC} ${ONNX_PROTO_HEADER})
 target_link_libraries(menoh ${MKLDNN_LIBRARY} ${PROTOBUF_LIBRARY})
 set_source_files_properties(${ONNX_PROTO_SRC} PROPERTIES GENERATED TRUE)
 set_source_files_properties(${ONNX_PROTO_HEADER} PROPERTIES GENERATED TRUE)
+set_target_properties(menoh PROPERTIES INSTALL_NAME_DIR "${CMAKE_INSTALL_PREFIX}/lib")
 
 install(TARGETS menoh
     RUNTIME DESTINATION "bin"
