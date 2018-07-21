@@ -59,6 +59,7 @@ install:
 before_script:
     - ls -R $HOME/mkl-dnn
 script:
+    - if [ -f cov-int/build-log.txt ]; then cat cov-int/build-log.txt; fi
     - mkdir build
     - cd build
     - |
