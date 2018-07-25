@@ -4,7 +4,7 @@ _realname=menoh
 _onnxversion=1.2.1
 pkgbase=mingw-w64-${_realname}
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}"
-pkgver=1.0.2
+pkgver=1.0.3
 pkgrel=1
 pkgdesc="Menoh - DNN inference library (mingw-w64)"
 arch=('x86_64')
@@ -21,7 +21,7 @@ makedepends=("${MINGW_PACKAGE_PREFIX}-gcc"
 options=('staticlibs' 'strip')
 source=(${_realname}-${pkgver}.tar.gz::https://github.com/pfnet-research/menoh/archive/v${pkgver}.tar.gz
         onnx-${_onnxversion}.tar.gz::https://github.com/onnx/onnx/archive/v${_onnxversion}.tar.gz)
-sha256sums=('e27ca3b594f26e4373d89dfbb28d1ead5ba9f30179d6321f115bc96e65afa397'
+sha256sums=('54ba2b72a744209097379ea88614e3e539baaa2e053e8555c9d77e36c0685982'
             'ede43fdcdee6f53ba5110aa55a5996a3be36fe051698887ce311c26c86efacf8')
 
 prepare() {
@@ -47,7 +47,7 @@ build() {
 package() {
   cd "${srcdir}/build-${MINGW_CHOST}"
   make DESTDIR="${pkgdir}" install
-  install -Dm644 -t "${pkgdir}${MINGW_PREFIX}/libexec/${_realname}" example/*.exe tool/*.exe benchmark/*.exe
+  install -Dm644 -t "${pkgdir}${MINGW_PREFIX}/libexec/${_realname}" example/*.exe benchmark/*.exe
 
   cd "${srcdir}/${_realname}-${pkgver}"
   install -Dm755 -t "${pkgdir}${MINGW_PREFIX}/share/doc/${_realname}" LICENSE README.md docs/*
