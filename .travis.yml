@@ -61,7 +61,7 @@ before_script:
 script:
     #- if [ -f cov-int/build-log.txt ]; then cat cov-int/build-log.txt; fi
     # CMakeCache.txt generated for coverity_scan build hinders out-of-source build
-    - if [ -d CMakeCache.txt ]; then rm CMakeCache.txt; fi
+    - if [ -f CMakeCache.txt ]; then rm CMakeCache.txt; fi
     - mkdir build
     - cd build
     - |
