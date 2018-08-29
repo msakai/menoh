@@ -1,6 +1,6 @@
 set(PROTOBUF_VERSION "2.6.1")
 
-if(UNIX AND LINK_STATIC_LIBPROTOBUF)
+if(LINK_STATIC_LIBPROTOBUF AND NOT MSVC)
     # Note: We can't use `set(PROTOBUF_BUILD_SHARED_LIBS OFF)` in `FindProtobuf` module
     # because `libprotobuf.a` produced by the package manager is not PIC. So we need to
     # build it ourselves.
