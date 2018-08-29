@@ -11,8 +11,7 @@ arch=('x86_64')
 url='https://github.com/pfnet-research/menoh'
 license=('MIT License')
 depends=("${MINGW_PACKAGE_PREFIX}-mkl-dnn"
-          "${MINGW_PACKAGE_PREFIX}-opencv"
-          "${MINGW_PACKAGE_PREFIX}-protobuf")
+          "${MINGW_PACKAGE_PREFIX}-opencv")
 makedepends=("${MINGW_PACKAGE_PREFIX}-gcc"
              "${MINGW_PACKAGE_PREFIX}-cmake"
              "${MINGW_PACKAGE_PREFIX}-mkl-dnn"
@@ -38,7 +37,7 @@ build() {
     -G "MSYS Makefiles" \
     -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
     -DMKLDNN_LIBRARY=${MINGW_PREFIX}/lib/libmkldnn.dll.a \
-    -DPROTOBUF_LIBRARY=${MINGW_PREFIX}/lib/libprotobuf.dll.a \
+    -DLINK_STATIC_LIBPROTOBUF=ON \
     "${srcdir}/${_realname}"
   make -j1
 }
