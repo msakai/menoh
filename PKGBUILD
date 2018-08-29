@@ -19,13 +19,12 @@ makedepends=("${MINGW_PACKAGE_PREFIX}-gcc"
              "${MINGW_PACKAGE_PREFIX}-opencv"
              "${MINGW_PACKAGE_PREFIX}-protobuf")
 options=('staticlibs' 'strip')
-source=(${_realname}-${pkgver}.tar.gz::https://github.com/pfnet-research/menoh/archive/v${pkgver}.tar.gz
+source=("git+https://github.com/pfnet-research/menoh.git#commit=fa85238191d3cc205cc0daebd536f1d731cbb776"
         onnx-${_onnxversion}.tar.gz::https://github.com/onnx/onnx/archive/v${_onnxversion}.tar.gz)
-sha256sums=('54ba2b72a744209097379ea88614e3e539baaa2e053e8555c9d77e36c0685982'
-            'ede43fdcdee6f53ba5110aa55a5996a3be36fe051698887ce311c26c86efacf8')
+sha256sums=('SKIP' 'SKIP')
 
 prepare() {
-  cd "${srcdir}/${_realname}-${pkgver}"
+  cd "${srcdir}/${_realname}"
   rm -rf external/onnx
   cp -R ${srcdir}/onnx-${_onnxversion} external/onnx
 }
@@ -40,7 +39,7 @@ build() {
     -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
     -DMKLDNN_LIBRARY=${MINGW_PREFIX}/lib/libmkldnn.dll.a \
     -DPROTOBUF_LIBRARY=${MINGW_PREFIX}/lib/libprotobuf.dll.a \
-    "${srcdir}/${_realname}-${pkgver}"
+    "${srcdir}/${_realname}"
   make -j1
 }
 
@@ -49,6 +48,6 @@ package() {
   make DESTDIR="${pkgdir}" install
   install -Dm644 -t "${pkgdir}${MINGW_PREFIX}/libexec/${_realname}" example/*.exe benchmark/*.exe
 
-  cd "${srcdir}/${_realname}-${pkgver}"
+  cd "${srcdir}/${_realname}"
   install -Dm755 -t "${pkgdir}${MINGW_PREFIX}/share/doc/${_realname}" LICENSE README.md docs/*
 }
