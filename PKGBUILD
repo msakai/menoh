@@ -15,10 +15,9 @@ depends=("${MINGW_PACKAGE_PREFIX}-mkl-dnn"
 makedepends=("${MINGW_PACKAGE_PREFIX}-gcc"
              "${MINGW_PACKAGE_PREFIX}-cmake"
              "${MINGW_PACKAGE_PREFIX}-mkl-dnn"
-             "${MINGW_PACKAGE_PREFIX}-opencv"
-             "${MINGW_PACKAGE_PREFIX}-protobuf")
+             "${MINGW_PACKAGE_PREFIX}-opencv")
 options=('staticlibs' 'strip')
-source=("git+https://github.com/pfnet-research/menoh.git#commit=fa85238191d3cc205cc0daebd536f1d731cbb776"
+source=("git+https://github.com/msakai/menoh.git#commit=d2e7a261713f2542f14c31115cce3e8e9160c2d1"
         onnx-${_onnxversion}.tar.gz::https://github.com/onnx/onnx/archive/v${_onnxversion}.tar.gz)
 sha256sums=('SKIP' 'SKIP')
 
