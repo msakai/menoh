@@ -38,6 +38,9 @@ if(LINK_STATIC_LIBPROTOBUF AND NOT MSVC)
     set(PROTOBUF_PROTOC_EXECUTABLE ${PROTOBUF_DIR}/bin/protoc)
     set(PROTOBUF_FOUND TRUE)
 
+    # This is necessary for protoc to find the (correct version of) libprotobuf.dll.
+    set(ENV{PATH} ${PROTOBUF_DIR}/bin:$ENV{PATH})
+
     add_library(protobuf::libprotobuf UNKNOWN IMPORTED)
     # Note: INTERFACE_INCLUDE_DIRECTORIES can't set in this place because include/ is
     # not installed during executing `cmake`
