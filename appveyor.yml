@@ -23,7 +23,7 @@ install:
 - if [%TARGET%]==[msvc] set PATH=C:\Miniconda3-x64;C:\Miniconda3-x64\Scripts;C:\Miniconda3-x64\Library\bin;%PATH%
 
 - if [%TARGET%]==[mingw] (
-    pacman -S --needed --noconfirm mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake mingw-w64-x86_64-opencv mingw-w64-x86_64-protobuf mingw-w64-x86_64-python3 mingw-w64-x86_64-python3-pip mingw-w64-x86_64-python3-numpy mingw-w64-x86_64-hdf5 mingw-w64-x86_64-ca-certificates &&
+    pacman -S --needed --noconfirm mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake mingw-w64-x86_64-opencv mingw-w64-x86_64-python3 mingw-w64-x86_64-python3-pip mingw-w64-x86_64-python3-numpy mingw-w64-x86_64-hdf5 mingw-w64-x86_64-ca-certificates &&
     curl -omingw-w64-x86_64-mkl-dnn-0.15-1-x86_64.pkg.tar.xz -L https://github.com/pfnet-research/menoh/releases/download/v1.0.3/mingw-w64-x86_64-mkl-dnn-0.15-1-x86_64.pkg.tar.xz &&
     pacman -U --noconfirm mingw-w64-x86_64-mkl-dnn-0.15-1-x86_64.pkg.tar.xz
   ) else (
@@ -57,7 +57,7 @@ build_script:
 - cd build
 - if [%TARGET%]==[msvc] set PATH=%PATH%;c:\protobuf-3.6.0-msvc\bin;c:\protobuf-3.6.0-msvc\include;c:\protobuf-3.6.0-msvc\lib;c:\projects\menoh\mkl-dnn-0.15-win64\bin;c:\projects\menoh\mkl-dnn-0.15-win64\include;c:\projects\menoh\mkl-dnn-0.15-win64\lib
 - if [%TARGET%]==[mingw] (
-    cmake -G "MSYS Makefiles" -DENABLE_TEST=ON -DCMAKE_INSTALL_PREFIX=/mingw64 .. &&
+    cmake -G "MSYS Makefiles" -DENABLE_TEST=ON -DLINK_STATIC_LIBPROTOBUF=ON -DCMAKE_INSTALL_PREFIX=/mingw64 .. &&
     make
   ) else (
     cmake -G "Visual Studio 14 Win64" -DENABLE_TEST=OFF -DENABLE_BENCHMARK=OFF -DENABLE_EXAMPLE=OFF -DENABLE_TOOL=OFF -DCMAKE_INSTALL_PREFIX=c:\menoh-%MENOH_REV%-msvc .. &&
