@@ -19,6 +19,12 @@ option(ENABLE_TOOL "Build tool" ON)
 
 option(SHOW_ALL_VARIABLES "Debug: show all variables" OFF)
 
+if(UNIX)
+  message(STATUS "UNIX")
+else()
+  message(STATUS "not-UNIX")
+endif()
+
 # C++ setup
 set(CMAKE_CXX_STANDARD 14)
 if("${CMAKE_BUILD_TYPE}" STREQUAL "")
