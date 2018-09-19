@@ -26,6 +26,6 @@ add_executable(menoh_test
     #vgg16.cpp
 
 )
-target_link_libraries(menoh_test gtest_main menoh_test_target ${PROTOBUF_LIBRARY})
+target_link_libraries(menoh_test gtest_main menoh_test_target)
 
 add_test(NAME menoh_test COMMAND menoh_test)

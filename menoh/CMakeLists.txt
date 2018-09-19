@@ -41,7 +41,7 @@ menoh_link_libraries(menoh PRIVATE)
 
 # menoh_test_target: only used in `test` subdirectory
 add_library(menoh_test_target SHARED $<TARGET_OBJECTS:menoh_objlib>)
-menoh_link_libraries(menoh_test_target PRIVATE)
+menoh_link_libraries(menoh_test_target PUBLIC)
 
 set_source_files_properties(${ONNX_PROTO_SRC} PROPERTIES GENERATED TRUE)
 set_source_files_properties(${ONNX_PROTO_HEADER} PROPERTIES GENERATED TRUE)
