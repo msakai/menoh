@@ -4,7 +4,7 @@ _realname=menoh
 _onnxversion=1.3.0
 pkgbase=mingw-w64-${_realname}
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}"
-pkgver=1.1.0
+pkgver=1.1.1
 pkgrel=1
 pkgdesc="Menoh - DNN inference library (mingw-w64)"
 arch=('x86_64')
@@ -19,7 +19,7 @@ makedepends=("${MINGW_PACKAGE_PREFIX}-gcc"
 options=('staticlibs' 'strip')
 source=(${_realname}-${pkgver}.tar.gz::https://github.com/pfnet-research/menoh/archive/v${pkgver}.tar.gz
         onnx-${_onnxversion}.tar.gz::https://github.com/onnx/onnx/archive/v${_onnxversion}.tar.gz)
-sha256sums=('62cbb4f9f992004da70acf4a842e0793b3944d44e629af07d8d592e7619bef99'
+sha256sums=('33c2ac0a86531cad131434ed7f34c93567f31b47e2e6dc40acd228ded18c2947'
             '85a723d46f2ac53f823448ded5ab4af5c70414237d5253fabac93621ec19b043')
 
 prepare() {
