@@ -47,7 +47,7 @@ namespace menoh_impl {
             mkldnn::memory weights_memory(
               {{{weights_dims},
                 dtype_to_mkldnn_memory_data_type(scale_arr.dtype()),
-                mkldnn::memory::format::nc},
+                mkldnn::memory::format_tag::nc},
                engine});
             assert(scale_arr.dtype() == dtype_t::float_);
             std::copy(fbegin(scale_arr), fend(scale_arr),
@@ -59,11 +59,11 @@ namespace menoh_impl {
 
             auto mean_memory = array_to_memory_and_deal_ownership(
               find_value(parameter_table, node.input_name_list.at(3)),
-              mkldnn::memory::format::x, engine, temp_memory_list,
+              mkldnn::memory::format_tag::x, engine, temp_memory_list,
               owned_array_list);
             auto var_memory = array_to_memory_and_deal_ownership(
               find_value(parameter_table, node.input_name_list.at(4)),
-              mkldnn::memory::format::x, engine, temp_memory_list,
+              mkldnn::memory::format_tag::x, engine, temp_memory_list,
               owned_array_list);
 
             auto input_dims = extract_dims(input_memory);
@@ -94,7 +94,7 @@ namespace menoh_impl {
               weights_memory.get_primitive_desc());
 
             manage_output_memory(
-              net, output_name, mkldnn::memory::format::nchw,
+              net, output_name, mkldnn::memory::format_tag::nchw,
               bn_pd.dst_primitive_desc(), output_memory_table,
               required_output_table, temp_memory_list, engine,
               [&net, &input_memory, &weights_memory, &mean_memory, &var_memory,

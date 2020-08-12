@@ -33,10 +33,10 @@ namespace menoh_impl {
 
                 auto mean_memory =
                   get_memory(input_memory_cache_list.at(3),
-                             mkldnn::memory::format::x, primitives);
+                             mkldnn::memory::format_tag::x, primitives);
                 auto var_memory =
                   get_memory(input_memory_cache_list.at(4),
-                             mkldnn::memory::format::x, primitives);
+                             mkldnn::memory::format_tag::x, primitives);
 
                 memory_cache& scale_memory_cache =
                   input_memory_cache_list.at(1);
@@ -49,10 +49,10 @@ namespace menoh_impl {
                                                mkldnn::memory::x, primitives);
                 auto b_memory = get_memory(b_memory_cache, scale_dims,
                                            mkldnn::memory::x, primitives);
-                mkldnn::memory weight_memory({{{weight_dims},
-                                               extract_data_type(scale_memory),
-                                               mkldnn::memory::format::nc},
-                                              engine});
+                mkldnn::memory weight_memory({{weight_dims},
+                                              extract_data_type(scale_memory),
+                                              mkldnn::memory::format_tag::nc},
+                                             engine);
                 auto scale_total_size =
                   std::accumulate(scale_dims.begin(), scale_dims.end(), 1,
                                   std::multiplies<int>());

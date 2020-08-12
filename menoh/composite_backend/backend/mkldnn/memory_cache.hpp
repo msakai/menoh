@@ -23,7 +23,7 @@ namespace menoh_impl {
                   : original_array_(arr), engine_(engine) {}
                 explicit memory_cache(mkldnn::memory const& mem)
                   : cached_memory_list_({mem}),
-                    engine_(mem.get_primitive_desc().get_engine()) {}
+                    engine_(mem.get_engine()) {}
 
                 mkldnn::memory::data_type data_type() const {
                     if(original_array_) {
@@ -49,7 +49,7 @@ namespace menoh_impl {
 
                 std::tuple<mkldnn::memory, optional<mkldnn::primitive>>
                 get_memory(std::vector<int> const& dims,
-                           mkldnn::memory::format format);
+                           mkldnn::memory::format_tag format);
 
                 mkldnn::memory get_data_memory();
 
@@ -80,7 +80,7 @@ namespace menoh_impl {
 
             mkldnn::memory inline get_memory(
               memory_cache& mem_cache, std::vector<int> const& dims,
-              mkldnn::memory::format format,
+              mkldnn::memory::format_tag format,
               std::vector<mkldnn::primitive>& primitives) {
                 optional<mkldnn::memory> mem;
                 optional<mkldnn::primitive> reorder_primitive;
@@ -93,7 +93,7 @@ namespace menoh_impl {
             }
 
             mkldnn::memory inline get_memory(
-              memory_cache& mem_cache, mkldnn::memory::format format,
+              memory_cache& mem_cache, mkldnn::memory::format_tag format,
               std::vector<mkldnn::primitive>& primitives) {
                 return get_memory(mem_cache, mem_cache.dims(), format,
                                   primitives);

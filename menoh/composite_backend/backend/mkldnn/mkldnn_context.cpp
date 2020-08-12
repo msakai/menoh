@@ -196,7 +196,7 @@ namespace menoh_impl {
                                   array(output_profile_table.at(output_name));
                                 allocated_array_list_.push_back(arr);
                                 output_formatted_array_list.push_back(
-                                  formatted_array(mkldnn::memory::format::any,
+                                  formatted_array(mkldnn::memory::format_tag::any,
                                                   arr));
                             } else {
                                 // required output

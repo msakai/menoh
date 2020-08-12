@@ -27,11 +27,11 @@ namespace menoh_impl {
 
         mkldnn::memory array_to_memory(array const& arr,
                                        std::vector<int> const& dims,
-                                       mkldnn::memory::format format,
+                                       mkldnn::memory::format_tag format,
                                        mkldnn::engine const& engine);
 
         mkldnn::memory array_to_memory(array const& arr,
-                                       mkldnn::memory::format format,
+                                       mkldnn::memory::format_tag format,
                                        mkldnn::engine const& engine);
 
         array memory_to_array(mkldnn::memory const& mem);

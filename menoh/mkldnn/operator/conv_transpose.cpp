@@ -62,14 +62,14 @@ namespace menoh_impl {
                 }
             }
             auto weight_memory = array_to_memory_and_deal_ownership(
-              weight_tr_arr, mkldnn::memory::format::oihw, engine,
+              weight_tr_arr, mkldnn::memory::format_tag::oihw, engine,
               temp_memory_list, owned_array_list);
 
             menoh_impl::optional<mkldnn::memory> bias_memory_opt;
             if(node.input_name_list.size() == 3) {
                 bias_memory_opt = array_to_memory_and_deal_ownership(
                   find_value(parameter_table, node.input_name_list.at(2)),
-                  mkldnn::memory::format::x, engine, temp_memory_list,
+                  mkldnn::memory::format_tag::x, engine, temp_memory_list,
                   owned_array_list);
             }
 
@@ -82,13 +82,13 @@ namespace menoh_impl {
 
             auto deconv_input_md =
               mkldnn::memory::desc({input_dims}, mkldnn::memory::data_type::f32,
-                                   mkldnn::memory::format::any);
+                                   mkldnn::memory::format_tag::any);
             auto deconv_weight_md = mkldnn::memory::desc(
               {weight_dims}, mkldnn::memory::data_type::f32,
-              mkldnn::memory::format::any);
+              mkldnn::memory::format_tag::any);
             auto deconv_output_md = mkldnn::memory::desc(
               {output_dims}, mkldnn::memory::data_type::f32,
-              mkldnn::memory::format::any);
+              mkldnn::memory::format_tag::any);
 
             menoh_impl::optional<mkldnn::deconvolution_forward::desc> deconv_desc_opt;
             if(bias_memory_opt) {
@@ -131,7 +131,7 @@ namespace menoh_impl {
             }
 
             manage_output_memory(
-              net, output_name, mkldnn::memory::format::nchw,
+              net, output_name, mkldnn::memory::format_tag::nchw,
               deconv_pd.dst_primitive_desc(), output_memory_table,
               required_output_table, temp_memory_list, engine,
               [&net, &deconv_input_memory, &deconv_weight_memory, &deconv_pd,

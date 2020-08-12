@@ -43,7 +43,7 @@ namespace menoh_impl {
 
             auto add_output_md = mkldnn::memory::desc(
               {output_dims}, mkldnn::memory::data_type::f32,
-              mkldnn::memory::format::any);
+              mkldnn::memory::format_tag::any);
 
             mkldnn::sum::primitive_desc add_pd(
               add_output_md, std::vector<float>{1.0f, 1.0f},
@@ -51,11 +51,11 @@ namespace menoh_impl {
                input_b_memory.get_primitive_desc()});
 
             auto output_format = input_a_dims.size() == 2
-                                   ? mkldnn::memory::format::nc
-                                   : mkldnn::memory::format::nchw;
+                                   ? mkldnn::memory::format_tag::nc
+                                   : mkldnn::memory::format_tag::nchw;
 
             std::vector<std::pair<
-              std::string, std::tuple<mkldnn::memory, mkldnn::memory::format>>>
+              std::string, std::tuple<mkldnn::memory, mkldnn::memory::format_tag>>>
               variable_memory_list;
             std::vector<std::pair<std::string, array>> output_name_and_arr_list;
 

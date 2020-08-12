@@ -34,7 +34,7 @@ namespace menoh_impl {
               find_value(variable_memory_table, node.input_name_list.at(0));
             auto weight_memory = array_to_memory_and_deal_ownership(
               find_value(parameter_table, node.input_name_list.at(1)),
-              mkldnn::memory::format::oihw, engine, temp_memory_list,
+              mkldnn::memory::format_tag::oihw, engine, temp_memory_list,
               owned_array_list);
 
             auto input_dims = extract_dims(input_memory);
@@ -46,13 +46,13 @@ namespace menoh_impl {
 
             auto conv_input_md =
               mkldnn::memory::desc({input_dims}, mkldnn::memory::data_type::f32,
-                                   mkldnn::memory::format::any);
+                                   mkldnn::memory::format_tag::any);
             auto conv_weight_md = mkldnn::memory::desc(
               {weight_dims}, mkldnn::memory::data_type::f32,
-              mkldnn::memory::format::any);
+              mkldnn::memory::format_tag::any);
             auto conv_output_md = mkldnn::memory::desc(
               {output_dims}, mkldnn::memory::data_type::f32,
-              mkldnn::memory::format::any);
+              mkldnn::memory::format_tag::any);
 
             menoh_impl::optional<mkldnn::convolution_forward::desc>
               conv_desc_opt;
@@ -66,7 +66,7 @@ namespace menoh_impl {
             } else {
                 bias_memory_opt = array_to_memory_and_deal_ownership(
                   find_value(parameter_table, node.input_name_list.at(2)),
-                  mkldnn::memory::format::x, engine, temp_memory_list,
+                  mkldnn::memory::format_tag::x, engine, temp_memory_list,
                   owned_array_list);
                 conv_desc_opt = mkldnn::convolution_forward::desc(
                   mkldnn::prop_kind::forward_inference,
@@ -99,7 +99,7 @@ namespace menoh_impl {
             }
 
             manage_output_memory(
-              net, output_name, mkldnn::memory::format::nchw,
+              net, output_name, mkldnn::memory::format_tag::nchw,
               conv_pd.dst_primitive_desc(), output_memory_table,
               required_output_table, temp_memory_list, engine,
               [&net, &conv_input_memory, &conv_weight_memory, &conv_pd,

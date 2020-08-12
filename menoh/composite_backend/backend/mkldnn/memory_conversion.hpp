@@ -9,10 +9,10 @@ namespace menoh_impl {
     namespace composite_backend {
         namespace mkldnn_backend {
 
-            bool is_data_format(mkldnn::memory::format format);
+            bool is_data_format(mkldnn::memory::format_tag format);
 
             std::vector<int> extract_dims(mkldnn::memory const& m);
-            mkldnn::memory::format extract_format(mkldnn::memory const& m);
+            mkldnn::memory::format_tag extract_format(mkldnn::memory const& m);
             mkldnn::memory::data_type
             extract_data_type(mkldnn::memory const& m);
 
@@ -22,16 +22,16 @@ namespace menoh_impl {
             dtype_t mkldnn_memory_data_type_to_dtype(
               mkldnn::memory::data_type mem_data_type);
 
-            mkldnn::memory::format ndims_to_data_memory_format(int ndims);
-            mkldnn::memory::format ndims_to_weight_memory_format(int ndims);
+            mkldnn::memory::format_tag ndims_to_data_memory_format(int ndims);
+            mkldnn::memory::format_tag ndims_to_weight_memory_format(int ndims);
 
             mkldnn::memory array_to_memory(array const& arr,
                                            std::vector<int> const& dims,
-                                           mkldnn::memory::format format,
+                                           mkldnn::memory::format_tag format,
                                            mkldnn::engine const& engine);
 
             mkldnn::memory array_to_memory(array const& arr,
-                                           mkldnn::memory::format format,
+                                           mkldnn::memory::format_tag format,
                                            mkldnn::engine const& engine);
 
             mkldnn::memory array_to_data_memory(array const& arr,
@@ -41,7 +41,7 @@ namespace menoh_impl {
 
             mkldnn::memory
             make_memory_from_array_profile(array_profile const& profile,
-                                           mkldnn::memory::format format,
+                                           mkldnn::memory::format_tag format,
                                            mkldnn::engine const& engine);
 
             mkldnn::memory

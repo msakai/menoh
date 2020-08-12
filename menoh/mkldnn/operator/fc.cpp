@@ -36,12 +36,12 @@ namespace menoh_impl {
             auto input_dims = extract_dims(input_memory);
 
             auto weight_format = input_dims.size() == 2
-                                   ? mkldnn::memory::format::oi
-                                   : mkldnn::memory::format::oihw;
+                                   ? mkldnn::memory::format_tag::oi
+                                   : mkldnn::memory::format_tag::oihw;
             auto weight_arr =
               find_value(parameter_table, node.input_name_list.at(1));
             auto weight_dims = weight_arr.dims();
-            if(weight_format == mkldnn::memory::format::oihw) {
+            if(weight_format == mkldnn::memory::format_tag::oihw) {
                 weight_dims = std::vector<int>{weight_dims.front()};
                 weight_dims.insert(weight_dims.end(), input_dims.begin() + 1,
                                    input_dims.end());
@@ -52,7 +52,7 @@ namespace menoh_impl {
 
             auto bias_memory = array_to_memory_and_deal_ownership(
               find_value(parameter_table, node.input_name_list.at(2)),
-              mkldnn::memory::format::x, engine, temp_memory_list,
+              mkldnn::memory::format_tag::x, engine, temp_memory_list,
               owned_array_list);
 
             auto bias_dims = extract_dims(bias_memory);
@@ -62,13 +62,13 @@ namespace menoh_impl {
 
             auto fc_input_md =
               mkldnn::memory::desc({input_dims}, mkldnn::memory::data_type::f32,
-                                   mkldnn::memory::format::any);
+                                   mkldnn::memory::format_tag::any);
             auto fc_weight_md = mkldnn::memory::desc(
               {weight_dims}, mkldnn::memory::data_type::f32,
-              mkldnn::memory::format::any);
+              mkldnn::memory::format_tag::any);
             auto fc_output_md = mkldnn::memory::desc(
               {output_dims}, mkldnn::memory::data_type::f32,
-              mkldnn::memory::format::any);
+              mkldnn::memory::format_tag::any);
 
             mkldnn::inner_product_forward::desc fc_desc(
               mkldnn::prop_kind::forward_inference, fc_input_md, fc_weight_md,
@@ -94,12 +94,12 @@ namespace menoh_impl {
             }
 
             std::vector<std::pair<
-              std::string, std::tuple<mkldnn::memory, mkldnn::memory::format>>>
+              std::string, std::tuple<mkldnn::memory, mkldnn::memory::format_tag>>>
               variable_memory_list;
             std::vector<std::pair<std::string, array>> output_name_and_arr_list;
 
             manage_output_memory(
-              net, output_name, mkldnn::memory::format::nc,
+              net, output_name, mkldnn::memory::format_tag::nc,
               fc_pd.dst_primitive_desc(), output_memory_table,
               required_output_table, temp_memory_list, engine,
               [&net, &fc_input_memory, &fc_weight_memory, &fc_pd,

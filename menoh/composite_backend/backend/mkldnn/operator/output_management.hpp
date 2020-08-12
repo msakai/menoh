@@ -14,7 +14,7 @@ namespace menoh_impl {
             inline std::tuple<memory_cache, std::vector<mkldnn::primitive>>
             manage_output(
               formatted_array const& output_formatted_array,
-              mkldnn::memory::primitive_desc const& output_memory_pd,
+              mkldnn::memory::desc const& output_memory_pd,
               mkldnn::engine const& engine, PrimitiveGen pg) {
                 std::vector<mkldnn::primitive> primitives;
 
@@ -25,7 +25,7 @@ namespace menoh_impl {
                 auto op_output_memory =
                   is_reorder_needed
                     ? mkldnn::memory(
-                        output_memory_pd) // this line allocates memory
+                        output_memory_pd, engine) // this line allocates memory
                     : output_formatted_array.make_memory(op_output_format,
                                                          engine);
                 memory_cache output_memory_cache(op_output_memory);
@@ -45,7 +45,7 @@ namespace menoh_impl {
             template <typename PrimitiveGen>
             inline memory_cache manage_output(
               formatted_array const& output_formatted_array,
-              mkldnn::memory::primitive_desc const& output_memory_pd,
+              mkldnn::memory::desc const& output_memory_pd,
               mkldnn::engine const& engine,
               std::vector<mkldnn::primitive>& primitives, PrimitiveGen pg) {
                 memory_cache output_memory_cache;

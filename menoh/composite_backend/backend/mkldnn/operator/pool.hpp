@@ -41,7 +41,7 @@ namespace menoh_impl {
                        "invalid shape inference");
                 auto pool_output_md = mkldnn::memory::desc(
                   {output_dims}, input_memory_cache.data_type(),
-                  mkldnn::memory::format::any);
+                  mkldnn::memory::format_tag::any);
 
                 mkldnn::pooling_forward::desc pool_desc(
                   mkldnn::prop_kind::forward_inference, pooling_alg,

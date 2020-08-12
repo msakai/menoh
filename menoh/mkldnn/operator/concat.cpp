@@ -46,18 +46,18 @@ namespace menoh_impl {
 
             auto concat_output_md = mkldnn::memory::desc(
               {output_dims}, mkldnn::memory::data_type::f32,
-              mkldnn::memory::format::any);
+              mkldnn::memory::format_tag::any);
 
             mkldnn::concat::primitive_desc concat_pd(concat_output_md, axis,
                                                      input_memory_pds);
 
             auto output_format =
               extract_dims(input_memories.front()).size() == 2
-                ? mkldnn::memory::format::nc
-                : mkldnn::memory::format::nchw;
+                ? mkldnn::memory::format_tag::nc
+                : mkldnn::memory::format_tag::nchw;
 
             std::vector<std::pair<
-              std::string, std::tuple<mkldnn::memory, mkldnn::memory::format>>>
+              std::string, std::tuple<mkldnn::memory, mkldnn::memory::format_tag>>>
               variable_memory_list;
             std::vector<std::pair<std::string, array>> output_name_and_arr_list;
 

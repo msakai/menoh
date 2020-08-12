@@ -8,7 +8,12 @@ namespace menoh_impl {
 
             std::tuple<mkldnn::memory, optional<mkldnn::primitive>>
             memory_cache::get_memory(std::vector<int> const& dims,
-                                     mkldnn::memory::format format) {
+                                     mkldnn::memory::format_tag format) {
+                std::vector<int64_t> dims2(dims.size());
+                for (auto d : dims) {
+                    dims2.push_back(d);
+                }
+
                 {
                     // search matched memory
                     auto found = std::find_if(
@@ -29,11 +34,11 @@ namespace menoh_impl {
                    (ndims_to_data_memory_format(dims.size()) == format ||
                     ndims_to_weight_memory_format(dims.size()) == format)) {
                     mkldnn::memory new_memory(
-                      {{{dims},
-                        dtype_to_mkldnn_memory_data_type(
-                          original_array_->dtype()),
-                        format},
-                       engine()},
+                      {{dims2},
+                       dtype_to_mkldnn_memory_data_type(
+                         original_array_->dtype()),
+                       format},
+                      engine(),
                       const_cast<void*>(original_array_->data()));
                     add_cached_memory(new_memory);
                     return std::make_tuple(new_memory, nullopt);
@@ -56,7 +61,7 @@ namespace menoh_impl {
                         auto const& found_memory = *found;
                         assert(dims == extract_dims(found_memory));
                         mkldnn::memory new_memory(
-                          {{{dims}, extract_data_type(found_memory), format},
+                          {{{dims2}, extract_data_type(found_memory), format},
                            engine()});
                         auto reorder_primitive =
                           mkldnn::reorder(found_memory,
@@ -79,17 +84,17 @@ namespace menoh_impl {
                 auto original_dtype =
                   dtype_to_mkldnn_memory_data_type(original_array_->dtype());
                 mkldnn::memory base_memory(
-                  {{{dims},
+                   {{dims2},
                     original_dtype,
                     is_data_format(format)
                       ? ndims_to_data_memory_format(dims.size())
                       : ndims_to_weight_memory_format(dims.size())},
-                   engine()},
+                   engine(),
                   const_cast<void*>(original_array_->data()));
                 add_cached_memory(base_memory);
 
                 mkldnn::memory new_memory(
-                  {{{dims}, original_dtype, format}, engine()});
+                  {{{dims2}, original_dtype, format}, engine()});
                 add_cached_memory(new_memory);
 
                 auto reorder_primitive =
@@ -109,14 +114,19 @@ namespace menoh_impl {
                     return *found;
                 }
 
+                std::vector<int64_t> dims2(dims().size());
+                for (auto d : dims()) {
+                    dims2.push_back(d);
+                }
+
                 assert(original_array_);
                 auto original_dtype =
                   dtype_to_mkldnn_memory_data_type(original_array_->dtype());
                 mkldnn::memory base_memory(
-                  {{{dims()},
-                    original_dtype,
-                    ndims_to_data_memory_format(dims().size())},
-                   engine()},
+                  {{dims2},
+                   original_dtype,
+                   ndims_to_data_memory_format(dims().size())},
+                  engine(),
                   const_cast<void*>(original_array_->data()));
                 add_cached_memory(base_memory);
                 return base_memory;

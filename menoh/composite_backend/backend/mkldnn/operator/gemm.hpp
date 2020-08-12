@@ -77,16 +77,16 @@ namespace menoh_impl {
                        "invalid shape inference");
                 auto gemm_input_md = mkldnn::memory::desc(
                   {input_dims}, input_memory_cache.data_type(),
-                  mkldnn::memory::format::any);
+                  mkldnn::memory::format_tag::any);
                 auto gemm_weight_md = mkldnn::memory::desc(
                   {weight_dims}, weight_memory_cache.data_type(),
-                  mkldnn::memory::format::any);
+                  mkldnn::memory::format_tag::any);
                 auto gemm_output_md = mkldnn::memory::desc(
                   {output_dims}, input_memory_cache.data_type(),
-                  mkldnn::memory::format::any);
+                  mkldnn::memory::format_tag::any);
 
                 auto bias_memory = get_memory(
-                  bias_memory_cache, mkldnn::memory::format::x, primitives);
+                  bias_memory_cache, mkldnn::memory::format_tag::x, primitives);
 
                 mkldnn::inner_product_forward::desc gemm_desc(
                   mkldnn::prop_kind::forward_inference, gemm_input_md,

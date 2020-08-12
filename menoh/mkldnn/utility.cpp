@@ -52,7 +52,7 @@ namespace menoh_impl {
 
         mkldnn::memory array_to_memory(array const& arr,
                                        std::vector<int> const& dims,
-                                       mkldnn::memory::format format,
+                                       mkldnn::memory::format_tag format,
                                        mkldnn::engine const& engine) {
             return mkldnn::memory(
               {{{dims}, dtype_to_mkldnn_memory_data_type(arr.dtype()), format},
@@ -61,7 +61,7 @@ namespace menoh_impl {
         }
 
         mkldnn::memory array_to_memory(array const& arr,
-                                       mkldnn::memory::format format,
+                                       mkldnn::memory::format_tag format,
                                        mkldnn::engine const& engine) {
             return array_to_memory(arr, arr.dims(), format, engine);
         }

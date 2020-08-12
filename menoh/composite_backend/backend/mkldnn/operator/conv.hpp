@@ -37,13 +37,13 @@ namespace menoh_impl {
                        "invalid shape inference");
                 auto conv_input_md = mkldnn::memory::desc(
                   {input_dims}, input_memory_cache.data_type(),
-                  mkldnn::memory::format::any);
+                  mkldnn::memory::format_tag::any);
                 auto conv_weight_md = mkldnn::memory::desc(
                   {weight_dims}, weight_memory_cache.data_type(),
-                  mkldnn::memory::format::any);
+                  mkldnn::memory::format_tag::any);
                 auto conv_output_md = mkldnn::memory::desc(
                   {output_dims}, input_memory_cache.data_type(),
-                  mkldnn::memory::format::any);
+                  mkldnn::memory::format_tag::any);
 
                 optional<mkldnn::memory> bias_memory_opt;
                 menoh_impl::optional<mkldnn::convolution_forward::desc>
@@ -72,7 +72,7 @@ namespace menoh_impl {
                     memory_cache& bias_memory_cache =
                       input_memory_cache_list.at(2);
                     bias_memory_opt = get_memory(
-                      bias_memory_cache, mkldnn::memory::format::x, primitives);
+                      bias_memory_cache, mkldnn::memory::format_tag::x, primitives);
 
                     if(is_no_dilations) {
                         conv_desc_opt = mkldnn::convolution_forward::desc(

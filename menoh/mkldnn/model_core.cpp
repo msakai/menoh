@@ -58,12 +58,12 @@ namespace menoh_impl {
                 std::string name;
                 array arr;
                 std::tie(name, arr) = name_and_arr_pair;
-                mkldnn::memory::format format =
-                  mkldnn::memory::format::format_undef;
+                mkldnn::memory::format_tag format =
+                  mkldnn::memory::format_tag::format_undef;
                 if(arr.dims().size() == 2) {
-                    format = mkldnn::memory::format::nc;
+                    format = mkldnn::memory::format_tag::nc;
                 } else if(arr.dims().size() == 4) {
-                    format = mkldnn::memory::format::nchw;
+                    format = mkldnn::memory::format_tag::nchw;
                 } else {
                     throw unsupported_input_dims(
                       name, std::to_string(arr.dims().size()));

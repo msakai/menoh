@@ -54,7 +54,7 @@ namespace menoh_impl {
             }
 
             manage_output_memory(
-              net, output_name, mkldnn::memory::format::nchw,
+              net, output_name, mkldnn::memory::format_tag::nchw,
               lrn_pd.dst_primitive_desc(), output_memory_table,
               required_output_table, temp_memory_list, engine,
               [&net, &lrn_input_memory, &lrn_pd](auto& op_output_memory) {

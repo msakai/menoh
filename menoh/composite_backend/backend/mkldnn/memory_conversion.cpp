@@ -4,23 +4,23 @@ namespace menoh_impl {
     namespace composite_backend {
         namespace mkldnn_backend {
 
-            bool is_data_format(mkldnn::memory::format format) {
-                std::vector<mkldnn::memory::format> data_memory_formats(
-                  {mkldnn::memory::format::x, //
-                   mkldnn::memory::format::nc,
-                   // mkldnn::memory::format::ncw,
-                   // mkldnn::memory::format::nwc,
-                   // mkldnn::memory::format::nCw16c,
-                   mkldnn::memory::format::nchw,
-                   // mkldnn::memory::format::nhwc,
-                   mkldnn::memory::format::chwn,
-                   // mkldnn::memory::format::nCw8c,
-                   mkldnn::memory::format::nChw8c,
-                   mkldnn::memory::format::nChw16c,
-                   mkldnn::memory::format::ncdhw, //
-                   mkldnn::memory::format::ndhwc,
-                   // mkldnn::memory::format::nCdhw8c,
-                   mkldnn::memory::format::nCdhw16c});
+            bool is_data_format(mkldnn::memory::format_tag format) {
+                std::vector<mkldnn::memory::format_tag> data_memory_formats(
+                  {mkldnn::memory::format_tag::x, //
+                   mkldnn::memory::format_tag::nc,
+                   // mkldnn::memory::format_tag::ncw,
+                   // mkldnn::memory::format_tag::nwc,
+                   // mkldnn::memory::format_tag::nCw16c,
+                   mkldnn::memory::format_tag::nchw,
+                   // mkldnn::memory::format_tag::nhwc,
+                   mkldnn::memory::format_tag::chwn,
+                   // mkldnn::memory::format_tag::nCw8c,
+                   mkldnn::memory::format_tag::nChw8c,
+                   mkldnn::memory::format_tag::nChw16c,
+                   mkldnn::memory::format_tag::ncdhw, //
+                   mkldnn::memory::format_tag::ndhwc,
+                   // mkldnn::memory::format_tag::nCdhw8c,
+                   mkldnn::memory::format_tag::nCdhw16c});
                 return std::find(data_memory_formats.begin(),
                                  data_memory_formats.end(),
                                  format) != data_memory_formats.end();
@@ -31,9 +31,9 @@ namespace menoh_impl {
                 return std::vector<int>(d.dims, d.dims + d.ndims);
             }
 
-            mkldnn::memory::format extract_format(mkldnn::memory const& m) {
+            mkldnn::memory::format_tag extract_format(mkldnn::memory const& m) {
                 auto const& d = m.get_primitive_desc().desc().data;
-                return static_cast<mkldnn::memory::format>(d.format);
+                return static_cast<mkldnn::memory::format_tag>(d.format);
             }
 
             mkldnn::memory::data_type
@@ -78,45 +78,45 @@ namespace menoh_impl {
                   std::to_string(static_cast<int>(mem_data_type)));
             }
 
-            mkldnn::memory::format ndims_to_data_memory_format(int ndims) {
+            mkldnn::memory::format_tag ndims_to_data_memory_format(int ndims) {
                 if(ndims == 1) {
-                    return mkldnn::memory::format::x;
+                    return mkldnn::memory::format_tag::x;
                 }
                 if(ndims == 2) {
-                    return mkldnn::memory::format::nc;
+                    return mkldnn::memory::format_tag::nc;
                 }
                 /*
                 if(ndims == 3) {
-                    return mkldnn::memory::format::ncw;
+                    return mkldnn::memory::format_tag::ncw;
                 }
                 */
                 if(ndims == 4) {
-                    return mkldnn::memory::format::nchw;
+                    return mkldnn::memory::format_tag::nchw;
                 }
                 throw std::runtime_error("ndims_to_data_memory_format: invalid ndims: " + std::to_string(ndims));
             }
 
-            mkldnn::memory::format ndims_to_weight_memory_format(int ndims) {
+            mkldnn::memory::format_tag ndims_to_weight_memory_format(int ndims) {
                 if(ndims == 1) {
-                    return mkldnn::memory::format::x;
+                    return mkldnn::memory::format_tag::x;
                 }
                 if(ndims == 2) {
-                    return mkldnn::memory::format::oi;
+                    return mkldnn::memory::format_tag::oi;
                 }
                 /*
                 if(ndims == 3) {
-                    return mkldnn::memory::format::oiw;
+                    return mkldnn::memory::format_tag::oiw;
                 }
                 */
                 if(ndims == 4) {
-                    return mkldnn::memory::format::oihw;
+                    return mkldnn::memory::format_tag::oihw;
                 }
                 throw std::runtime_error("ndims_to_weight_memory_format: invalid ndims" + std::to_string(ndims));
             }
 
             mkldnn::memory array_to_memory(array const& arr,
                                            std::vector<int> const& dims,
-                                           mkldnn::memory::format format,
+                                           mkldnn::memory::format_tag format,
                                            mkldnn::engine const& engine) {
                 return mkldnn::memory(
                   {{{dims},
@@ -127,7 +127,7 @@ namespace menoh_impl {
             }
 
             mkldnn::memory array_to_memory(array const& arr,
-                                           mkldnn::memory::format format,
+                                           mkldnn::memory::format_tag format,
                                            mkldnn::engine const& engine) {
                 return array_to_memory(arr, arr.dims(), format, engine);
             }
@@ -140,10 +140,10 @@ namespace menoh_impl {
             }
 
             array memory_to_array(mkldnn::memory const& mem) {
-                assert(extract_format(mem) == mkldnn::memory::format::x ||
-                       extract_format(mem) == mkldnn::memory::format::nc ||
-                       // extract_format(mem) == mkldnn::memory::format::ncw ||
-                       extract_format(mem) == mkldnn::memory::format::nchw);
+                assert(extract_format(mem) == mkldnn::memory::format_tag::x ||
+                       extract_format(mem) == mkldnn::memory::format_tag::nc ||
+                       // extract_format(mem) == mkldnn::memory::format_tag::ncw ||
+                       extract_format(mem) == mkldnn::memory::format_tag::nchw);
                 return array(
                   mkldnn_memory_data_type_to_dtype(
                     static_cast<mkldnn::memory::data_type>(
@@ -153,7 +153,7 @@ namespace menoh_impl {
 
             mkldnn::memory
             make_memory_from_array_profile(array_profile const& profile,
-                                           mkldnn::memory::format format,
+                                           mkldnn::memory::format_tag format,
                                            mkldnn::engine const& engine) {
                 return mkldnn::memory(
                   {{{profile.dims()},

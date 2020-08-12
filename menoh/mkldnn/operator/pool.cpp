@@ -43,7 +43,7 @@ namespace menoh_impl {
 
             auto pool_output_md = mkldnn::memory::desc(
               {output_dims}, mkldnn::memory::data_type::f32,
-              mkldnn::memory::format::any);
+              mkldnn::memory::format_tag::any);
             auto pool_desc = mkldnn::pooling_forward::desc(
               mkldnn::prop_kind::forward, pooling_alg,
               input_memory.get_primitive_desc().desc(), pool_output_md, strides,
@@ -52,7 +52,7 @@ namespace menoh_impl {
               mkldnn::pooling_forward::primitive_desc(pool_desc, engine);
 
             manage_output_memory(
-              net, output_name, mkldnn::memory::format::nchw,
+              net, output_name, mkldnn::memory::format_tag::nchw,
               pool_pd.dst_primitive_desc(), output_memory_table,
               required_output_table, temp_memory_list, engine,
               [pa = pooling_alg, &net, &input_memory, &temp_memory_list,

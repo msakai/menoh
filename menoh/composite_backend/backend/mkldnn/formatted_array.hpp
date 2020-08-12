@@ -15,35 +15,39 @@ namespace menoh_impl {
             public:
                 formatted_array() = default;
 
-                formatted_array(mkldnn::memory::format format, array const& arr)
+                formatted_array(mkldnn::memory::format_tag format, array const& arr)
                   : format_(format), array_(arr) {}
 
-                mkldnn::memory make_memory(mkldnn::memory::format format,
+                mkldnn::memory make_memory(mkldnn::memory::format_tag format,
                                            mkldnn::engine const& engine) const {
+		    std::vector<int64_t> dims2;
+		    for (auto d : array_.dims()) {
+		        dims2.push_back(d);
+		    }
                     return mkldnn::memory(
-                      {{{array_.dims()},
-                        dtype_to_mkldnn_memory_data_type(array_.dtype()),
-                        format},
-                       engine},
+                      {{dims2},
+                       dtype_to_mkldnn_memory_data_type(array_.dtype()),
+                       format},
+                      engine,
                       const_cast<void*>(array_.data()));
                 }
 
-                mkldnn::memory::format format() const { return format_; }
+                mkldnn::memory::format_tag format() const { return format_; }
                 menoh_impl::array array() const { return array_; }
 
             private:
-                mkldnn::memory::format format_;
+                mkldnn::memory::format_tag format_;
                 menoh_impl::array array_;
             };
 
             inline bool is_format_any(formatted_array const& farr) {
-                return farr.format() == mkldnn::memory::format::any;
+                return farr.format() == mkldnn::memory::format_tag::any;
             }
 
             inline mkldnn::memory
             make_memory(formatted_array const& farr,
                         mkldnn::engine const& engine) {
-                assert(farr.format() != mkldnn::memory::format::any);
+                assert(farr.format() != mkldnn::memory::format_tag::any);
                 return farr.make_memory(farr.format(), engine);
             }
 

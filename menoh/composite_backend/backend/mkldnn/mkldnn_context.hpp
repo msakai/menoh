@@ -41,9 +41,9 @@ namespace menoh_impl {
                                    variable_memory_cache.dims().size()),
                                  primitives);
                     assert(extract_format(variable_memory) ==
-                             mkldnn::memory::format::nchw ||
+                             mkldnn::memory::format_tag::nchw ||
                            extract_format(variable_memory) ==
-                             mkldnn::memory::format::nc);
+                             mkldnn::memory::format_tag::nc);
                     procedure copy_proc =
                       primitives.empty()
                         ? procedure(nullptr)

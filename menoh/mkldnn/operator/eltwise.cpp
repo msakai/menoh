@@ -41,8 +41,8 @@ namespace menoh_impl {
               mkldnn::eltwise_forward::primitive_desc(op_desc, engine);
 
             auto output_format = input_dims.size() == 2
-                                   ? mkldnn::memory::format::nc
-                                   : mkldnn::memory::format::nchw;
+                                   ? mkldnn::memory::format_tag::nc
+                                   : mkldnn::memory::format_tag::nchw;
 
             manage_output_memory_inplace_if_possible(
               net, node.input_name_list.at(0), input_memory, output_name,

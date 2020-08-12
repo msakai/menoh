@@ -30,7 +30,7 @@ namespace menoh_impl {
                   {output_dims},
                   dtype_to_mkldnn_memory_data_type(
                     output_formatted_array_list.at(0).array().dtype()),
-                  mkldnn::memory::format::any);
+                  mkldnn::memory::format_tag::any);
 
                 std::vector<mkldnn::memory> input_memory_list;
                 for(memory_cache& input_memory_cache :

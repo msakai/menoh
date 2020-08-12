@@ -18,7 +18,7 @@ namespace menoh_impl {
 
         inline auto array_to_memory_and_deal_ownership(
           array const& arr, std::vector<int> const& dims,
-          mkldnn::memory::format format, mkldnn::engine const& engine,
+          mkldnn::memory::format_tag format, mkldnn::engine const& engine,
           std::vector<mkldnn::memory>& temp_memory_list,
           std::vector<array>& owned_array_list) {
             if(arr.has_ownership()) {
@@ -30,7 +30,7 @@ namespace menoh_impl {
         }
 
         inline auto array_to_memory_and_deal_ownership(
-          array const& arr, mkldnn::memory::format format,
+          array const& arr, mkldnn::memory::format_tag format,
           mkldnn::engine const& engine,
           std::vector<mkldnn::memory>& temp_memory_list,
           std::vector<array>& owned_array_list) {
@@ -42,7 +42,7 @@ namespace menoh_impl {
         template <typename OpPrimitiveGenerator>
         auto manage_output_memory(
           std::vector<mkldnn::primitive>& net, std::string const& output_name,
-          mkldnn::memory::format output_format,
+          mkldnn::memory::format_tag output_format,
           mkldnn::memory::primitive_desc const& output_pd,
           std::unordered_map<std::string, mkldnn::memory>& output_memory_table,
           std::unordered_map<std::string, array> const& output_table,
@@ -94,7 +94,7 @@ namespace menoh_impl {
         auto manage_output_memory_inplace_if_possible(
           std::vector<mkldnn::primitive>& net, std::string const& input_name,
           mkldnn::memory const& input_memory, std::string const& output_name,
-          mkldnn::memory::format output_format,
+          mkldnn::memory::format_tag output_format,
           mkldnn::memory::primitive_desc const& output_pd,
           std::unordered_map<std::string, mkldnn::memory>& output_memory_table,
           std::unordered_map<std::string, array> const& output_table,
